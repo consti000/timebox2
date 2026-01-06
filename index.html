@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TimeBox Planner</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://apis.google.com/js/api.js"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📅 TimeBox Planner</h1>
+            <input type="text" class="date-input" id="currentDate" placeholder="날짜를 입력하세요 (예: 20240115 또는 2024-01-15)">
+        </header>
+
+        <div class="main-content">
+            <!-- 왼쪽: Priority & Brain Dump -->
+            <aside class="sidebar">
+                <!-- Top Priorities -->
+                <section class="section priorities">
+                    <h2>🎯 Top Priorities</h2>
+                    <div class="priority-list" id="priorityList">
+                        <div class="priority-item" data-id="1">
+                            <input type="text" placeholder="중요한 일 1" class="priority-input" data-priority="1">
+                            <button class="check-btn" data-priority="1">✓</button>
+                        </div>
+                        <div class="priority-item" data-id="2">
+                            <input type="text" placeholder="중요한 일 2" class="priority-input" data-priority="2">
+                            <button class="check-btn" data-priority="2">✓</button>
+                        </div>
+                        <div class="priority-item" data-id="3">
+                            <input type="text" placeholder="중요한 일 3" class="priority-input" data-priority="3">
+                            <button class="check-btn" data-priority="3">✓</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Brain Dump -->
+                <section class="section brain-dump">
+                    <h2>💭 Brain Dump</h2>
+                    <div class="brain-dump-controls">
+                        <input type="text" id="brainDumpInput" placeholder="할 일을 입력하세요..." class="brain-dump-input">
+                        <button id="addBrainDumpBtn" class="add-btn">추가</button>
+                    </div>
+                    <ul class="brain-dump-list" id="brainDumpList"></ul>
+                </section>
+            </aside>
+
+            <!-- 오른쪽: Timeline -->
+            <main class="timeline-section">
+                <section class="section timeline">
+                    <div class="timeline-header">
+                        <h2>⏰ 타임라인</h2>
+                        <button id="syncCalendarBtn" class="calendar-sync-btn" title="구글 캘린더에 동기화">
+                            📅 구글 캘린더 연동
+                        </button>
+                    </div>
+                    <div class="timeline-container" id="timelineContainer">
+                        <!-- 타임라인 블록들이 여기에 동적으로 생성됩니다 -->
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <!-- 하단: 메모 섹션 -->
+        <section class="section notes">
+            <h2>📝 메모</h2>
+            <textarea id="notesTextarea" placeholder="오늘의 메모를 작성하세요..." class="notes-textarea"></textarea>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
