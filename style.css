@@ -726,6 +726,45 @@ header h1 {
         min-width: 0;
     }
 
+    /* Brain Dump 입력 컨트롤 영역 - 컨테이너 너비를 넘지 않도록 설정 */
+    .brain-dump-controls {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        display: flex;
+        gap: 8px;
+        flex-wrap: nowrap;
+    }
+
+    /* Brain Dump 입력 필드 - 컨테이너 너비를 넘지 않도록 설정 */
+    .brain-dump-input {
+        flex: 1;
+        min-width: 0;
+        max-width: 100%;
+        padding: 10px;
+        border: 1px solid #e0e0e0;
+        border-radius: 6px;
+        font-size: 0.95em;
+        outline: none;
+        transition: border-color 0.2s;
+        box-sizing: border-box;
+    }
+
+    /* 추가 버튼 - 컨테이너 너비를 넘지 않도록 설정 */
+    .add-btn {
+        padding: 10px 16px;
+        background: #3498db;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.9em;
+        transition: background 0.2s;
+        flex-shrink: 0;
+        white-space: nowrap;
+        box-sizing: border-box;
+    }
+
     /* 시간 라벨 - 크기 축소, 컨테이너 너비를 넘지 않도록 설정 */
     .time-label {
         width: 60px;
