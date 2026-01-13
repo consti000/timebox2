@@ -539,7 +539,7 @@ header h1 {
 /* 모바일 세로 모드 (스마트폰) */
 @media (max-width: 768px) {
     body {
-        padding: 10px;
+        padding: 0;
         overflow-x: hidden;
     }
 
@@ -547,6 +547,8 @@ header h1 {
         padding: 15px;
         min-width: unset;
         width: 100%;
+        margin: 0;
+        border-radius: 0;
     }
 
     header h1 {
