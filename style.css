@@ -87,12 +87,14 @@ header h1 {
 
 /* 메인 콘텐츠 영역 */
 /* 사이드바와 타임라인을 포함하는 그리드 레이아웃 */
+/* 메인 컨테이너의 가로 너비와 동일하게 설정 */
 .main-content {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
     gap: 30px;
     margin-bottom: 30px;
     width: 100%;
+    max-width: 100%;
     box-sizing: border-box;
 }
 
@@ -120,12 +122,15 @@ header h1 {
    사이드바 스타일 (왼쪽 영역)
    ============================================ */
 /* 우선순위와 Brain Dump를 포함하는 사이드바 */
+/* 메인 컨테이너의 가로 너비와 동일하게 설정 */
 .sidebar {
     display: flex;
     flex-direction: column;
     gap: 25px;
     width: 100%;
+    max-width: 100%;
     box-sizing: border-box;
+    min-width: 0;
 }
 
 /* 우선순위 목록 */
@@ -330,9 +335,12 @@ header h1 {
    타임라인 스타일 (오른쪽 영역)
    ============================================ */
 /* 타임라인 섹션 컨테이너 */
+/* 메인 컨테이너의 가로 너비와 동일하게 설정 */
 .timeline-section {
     width: 100%;
+    max-width: 100%;
     box-sizing: border-box;
+    min-width: 0;
 }
 
 /* 타임라인 헤더 */
@@ -560,6 +568,8 @@ header h1 {
     .main-content {
         grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
         gap: 20px;
+        width: 100%;
+        max-width: 100%;
     }
 
     .container {
@@ -621,6 +631,8 @@ header h1 {
     .main-content {
         grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
         gap: 15px;
+        width: 100%;
+        max-width: 100%;
     }
 
     .timeline-container {
