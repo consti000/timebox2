@@ -527,6 +527,69 @@ header h1 {
     }
 }
 
+/* 모바일 세로 모드 (스마트폰) */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+        overflow-x: hidden;
+    }
+
+    .container {
+        padding: 15px;
+        min-width: unset;
+        width: 100%;
+    }
+
+    header h1 {
+        font-size: 1.5em;
+    }
+
+    .main-content {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .sidebar {
+        min-width: unset;
+        width: 100%;
+    }
+
+    .timeline-section {
+        min-width: unset;
+        width: 100%;
+    }
+
+    .section {
+        padding: 15px;
+    }
+
+    .time-label {
+        width: 70px;
+        min-width: 70px;
+        padding: 10px;
+        font-size: 0.85em;
+    }
+
+    .time-content {
+        padding: 10px;
+        min-width: unset;
+    }
+
+    .timeline-container {
+        grid-template-columns: 1fr;
+        max-height: 500px;
+    }
+
+    .time-block {
+        min-width: unset;
+        width: 100%;
+    }
+
+    .time-block:nth-child(2n) {
+        border-right: 1px solid #f0f0f0;
+    }
+}
+
 /* Scrollbar Styling */
 .timeline-container::-webkit-scrollbar,
 .brain-dump-list::-webkit-scrollbar {
