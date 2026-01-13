@@ -552,37 +552,45 @@ header h1 {
     .sidebar {
         min-width: unset;
         width: 100%;
+        max-width: 100%;
     }
 
     .timeline-section {
         min-width: unset;
         width: 100%;
+        max-width: 100%;
     }
 
     .section {
         padding: 15px;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
     }
 
     .time-label {
-        width: 70px;
-        min-width: 70px;
-        padding: 10px;
-        font-size: 0.85em;
+        width: 60px;
+        min-width: 60px;
+        padding: 8px 6px;
+        font-size: 0.8em;
     }
 
     .time-content {
-        padding: 10px;
+        padding: 8px;
         min-width: unset;
     }
 
     .timeline-container {
         grid-template-columns: 1fr;
-        max-height: 500px;
+        max-height: none;
+        overflow: visible;
+        overflow-y: visible;
     }
 
     .time-block {
         min-width: unset;
         width: 100%;
+        min-height: 35px;
     }
 
     .time-block:nth-child(2n) {
