@@ -39,9 +39,9 @@ header h1 {
 }
 
 .date-input {
-    width: auto;
-    min-width: 200px;
-    max-width: 600px;
+    width: 100%;
+    min-width: unset;
+    max-width: 100%;
     padding: 10px 15px;
     border: 1px solid #e0e0e0;
     border-radius: 6px;
@@ -49,10 +49,11 @@ header h1 {
     color: #7f8c8d;
     text-align: center;
     outline: none;
-    transition: border-color 0.2s, width 0.2s;
+    transition: border-color 0.2s;
     background: #fafafa;
     font-family: inherit;
-    display: inline-block;
+    display: block;
+    box-sizing: border-box;
 }
 
 .date-input:focus {

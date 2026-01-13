@@ -106,9 +106,6 @@ function initDate() {
     // 저장된 날짜가 있으면 로드, 없으면 빈 값
     dateElement.value = appData.date || '';
     
-    // 초기 너비 조정
-    adjustInputWidth(dateElement);
-    
     // 날짜 입력 이벤트
     dateElement.addEventListener('input', (e) => {
         let inputValue = e.target.value;
@@ -119,9 +116,6 @@ function initDate() {
             inputValue = converted;
             e.target.value = inputValue;
         }
-        
-        // 너비 조정
-        adjustInputWidth(e.target);
         
         appData.date = inputValue;
         saveData();
@@ -138,9 +132,6 @@ function initDate() {
             appData.date = inputValue;
             saveData();
         }
-        
-        // 너비 조정
-        adjustInputWidth(e.target);
     });
 }
 
