@@ -1,9 +1,17 @@
+/* ============================================
+   TimeBox Planner - CSS 스타일시트
+   ============================================ */
+
+/* 전역 리셋 스타일 */
+/* 모든 요소의 기본 margin과 padding을 제거하고, box-sizing을 border-box로 설정 */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/* 페이지 전체 스타일 */
+/* 배경 그라데이션, 폰트 설정, 기본 레이아웃 설정 */
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
     background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
@@ -14,17 +22,22 @@ body {
     box-sizing: border-box;
 }
 
+/* 메인 컨테이너 */
+/* 전체 앱을 감싸는 흰색 배경 컨테이너 */
+/* 표시 항목들의 너비와 동일하게 설정 (padding을 고려하여 너비 조정) */
 .container {
-    max-width: 1400px;
+    width: calc(100% - 40px);
     margin: 0 auto;
     background: #ffffff;
     border-radius: 12px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
     padding: 30px;
-    width: 100%;
     box-sizing: border-box;
+    max-width: 100%;
 }
 
+/* 헤더 영역 */
+/* 앱 제목과 날짜 입력창이 있는 상단 영역 */
 header {
     text-align: center;
     margin-bottom: 30px;
@@ -32,6 +45,7 @@ header {
     border-bottom: 2px solid #e8e8e8;
 }
 
+/* 헤더 제목 스타일 */
 header h1 {
     font-size: 2.5em;
     color: #2c3e50;
@@ -40,6 +54,8 @@ header h1 {
     font-family: 'Nanum Myeongjo', 'Batang', 'Gungsuh', serif;
 }
 
+/* 날짜 입력창 */
+/* 사용자가 날짜를 입력하는 입력 필드 */
 .date-input {
     width: 100%;
     min-width: unset;
@@ -58,15 +74,19 @@ header h1 {
     box-sizing: border-box;
 }
 
+/* 날짜 입력창 포커스 상태 */
 .date-input:focus {
     border-color: #3498db;
     background: white;
 }
 
+/* 날짜 입력창 플레이스홀더 스타일 */
 .date-input::placeholder {
     color: #bdc3c7;
 }
 
+/* 메인 콘텐츠 영역 */
+/* 사이드바와 타임라인을 포함하는 그리드 레이아웃 */
 .main-content {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
@@ -76,6 +96,8 @@ header h1 {
     box-sizing: border-box;
 }
 
+/* 공통 섹션 스타일 */
+/* 모든 섹션(우선순위, Brain Dump, 타임라인, 메모)에 공통으로 적용되는 스타일 */
 .section {
     background: #fafafa;
     border-radius: 8px;
@@ -86,6 +108,7 @@ header h1 {
     min-width: 0;
 }
 
+/* 섹션 제목 스타일 */
 .section h2 {
     font-size: 1.3em;
     margin-bottom: 15px;
@@ -93,7 +116,10 @@ header h1 {
     font-weight: 400;
 }
 
-/* Sidebar Styles */
+/* ============================================
+   사이드바 스타일 (왼쪽 영역)
+   ============================================ */
+/* 우선순위와 Brain Dump를 포함하는 사이드바 */
 .sidebar {
     display: flex;
     flex-direction: column;
@@ -102,12 +128,15 @@ header h1 {
     box-sizing: border-box;
 }
 
+/* 우선순위 목록 */
 .priority-list {
     display: flex;
     flex-direction: column;
     gap: 12px;
 }
 
+/* 우선순위 항목 */
+/* 각 우선순위 항목의 컨테이너 */
 .priority-item {
     display: flex;
     align-items: center;
@@ -120,10 +149,12 @@ header h1 {
     cursor: default;
 }
 
+/* 우선순위 항목 호버 효과 */
 .priority-item:hover {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
+/* 우선순위 입력 필드 */
 .priority-input {
     flex: 1;
     border: none;
@@ -133,11 +164,14 @@ header h1 {
     color: #2c3e50;
 }
 
+/* 완료된 우선순위 항목 스타일 */
 .priority-input.completed {
     text-decoration: line-through;
     color: #95a5a6;
 }
 
+/* 체크 버튼 */
+/* 우선순위 항목의 완료 체크 버튼 */
 .check-btn {
     width: 28px;
     height: 28px;
@@ -154,24 +188,30 @@ header h1 {
     flex-shrink: 0;
 }
 
+/* 체크 버튼 호버 효과 */
 .check-btn:hover {
     background: #3498db;
     color: white;
 }
 
+/* 완료된 체크 버튼 스타일 */
 .check-btn.completed {
     background: #27ae60;
     border-color: #27ae60;
     color: white;
 }
 
-/* Brain Dump Styles */
+/* ============================================
+   Brain Dump 스타일
+   ============================================ */
+/* Brain Dump 입력 컨트롤 영역 */
 .brain-dump-controls {
     display: flex;
     gap: 10px;
     margin-bottom: 15px;
 }
 
+/* Brain Dump 입력 필드 */
 .brain-dump-input {
     flex: 1;
     padding: 10px;
@@ -182,10 +222,12 @@ header h1 {
     transition: border-color 0.2s;
 }
 
+/* Brain Dump 입력 필드 포커스 상태 */
 .brain-dump-input:focus {
     border-color: #3498db;
 }
 
+/* 추가 버튼 */
 .add-btn {
     padding: 10px 20px;
     background: #3498db;
@@ -197,10 +239,13 @@ header h1 {
     transition: background 0.2s;
 }
 
+/* 추가 버튼 호버 효과 */
 .add-btn:hover {
     background: #2980b9;
 }
 
+/* Brain Dump 목록 */
+/* 스크롤 가능한 할 일 목록 */
 .brain-dump-list {
     list-style: none;
     display: flex;
@@ -211,6 +256,8 @@ header h1 {
     overflow-y: auto;
 }
 
+/* Brain Dump 항목 */
+/* 드래그 가능한 각 할 일 항목 */
 .brain-dump-item {
     display: flex;
     align-items: center;
@@ -223,15 +270,18 @@ header h1 {
     transition: all 0.2s;
 }
 
+/* Brain Dump 항목 호버 효과 */
 .brain-dump-item:hover {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     transform: translateX(3px);
 }
 
+/* 드래그 중인 Brain Dump 항목 */
 .brain-dump-item.dragging {
     opacity: 0.5;
 }
 
+/* Brain Dump 항목 체크박스 */
 .brain-dump-item input[type="checkbox"] {
     width: 18px;
     height: 18px;
@@ -239,6 +289,7 @@ header h1 {
     flex-shrink: 0;
 }
 
+/* Brain Dump 항목 라벨 */
 .brain-dump-item label {
     flex: 1;
     cursor: pointer;
@@ -246,11 +297,13 @@ header h1 {
     user-select: none;
 }
 
+/* 완료된 Brain Dump 항목 라벨 */
 .brain-dump-item label.completed {
     text-decoration: line-through;
     color: #95a5a6;
 }
 
+/* Brain Dump 항목 삭제 버튼 */
 .brain-dump-item .delete-btn {
     background: #e74c3c;
     color: white;
@@ -263,20 +316,27 @@ header h1 {
     transition: opacity 0.2s;
 }
 
+/* Brain Dump 항목 호버 시 삭제 버튼 표시 */
 .brain-dump-item:hover .delete-btn {
     opacity: 1;
 }
 
+/* Brain Dump 항목 삭제 버튼 호버 효과 */
 .brain-dump-item .delete-btn:hover {
     background: #c0392b;
 }
 
-/* Timeline Styles */
+/* ============================================
+   타임라인 스타일 (오른쪽 영역)
+   ============================================ */
+/* 타임라인 섹션 컨테이너 */
 .timeline-section {
     width: 100%;
     box-sizing: border-box;
 }
 
+/* 타임라인 헤더 */
+/* 타임라인 제목과 구글 캘린더 동기화 버튼이 있는 영역 */
 .timeline-header {
     display: flex;
     justify-content: space-between;
@@ -284,10 +344,12 @@ header h1 {
     margin-bottom: 15px;
 }
 
+/* 타임라인 헤더 제목 */
 .timeline-header h2 {
     margin-bottom: 0;
 }
 
+/* 구글 캘린더 동기화 버튼 */
 .calendar-sync-btn {
     padding: 8px 16px;
     background: #4285f4;
@@ -302,15 +364,19 @@ header h1 {
     gap: 5px;
 }
 
+/* 구글 캘린더 동기화 버튼 호버 효과 */
 .calendar-sync-btn:hover {
     background: #357ae8;
 }
 
+/* 구글 캘린더 동기화 버튼 비활성화 상태 */
 .calendar-sync-btn:disabled {
     background: #ccc;
     cursor: not-allowed;
 }
 
+/* 타임라인 컨테이너 */
+/* 시간대별 블록들을 포함하는 그리드 컨테이너 */
 .timeline-container {
     background: white;
     border-radius: 6px;
@@ -325,6 +391,8 @@ header h1 {
     box-sizing: border-box;
 }
 
+/* 시간 블록 */
+/* 각 시간대(30분 단위)를 나타내는 블록 */
 .time-block {
     display: flex;
     align-items: center;
@@ -337,19 +405,24 @@ header h1 {
     box-sizing: border-box;
 }
 
+/* 시간 블록 - 두 번째 열의 오른쪽 테두리 제거 */
 .time-block:nth-child(2n) {
     border-right: none;
 }
 
+/* 시간 블록 호버 효과 */
 .time-block:hover {
     background: #f8f9fa;
 }
 
+/* 시간 블록 - 마지막 행의 아래 테두리 제거 */
 .time-block:last-child,
 .time-block:nth-last-child(2) {
     border-bottom: none;
 }
 
+/* 시간 라벨 */
+/* 각 시간대를 표시하는 라벨 (예: 06:00, 06:30) */
 .time-label {
     width: 80px;
     min-width: 80px;
@@ -361,6 +434,8 @@ header h1 {
     border-right: 1px solid #f0f0f0;
 }
 
+/* 시간 콘텐츠 영역 */
+/* 할 일 태그들이 표시되는 영역 */
 .time-content {
     flex: 1;
     padding: 15px;
@@ -374,11 +449,14 @@ header h1 {
     min-width: 0;
 }
 
+/* 빈 시간 콘텐츠 영역 */
 .time-content.empty {
     color: #bdc3c7;
     font-style: italic;
 }
 
+/* 태스크 태그 */
+/* 타임라인에 표시되는 각 할 일 태그 */
 .task-tag {
     background: #3498db;
     color: white;
@@ -392,21 +470,25 @@ header h1 {
     transition: all 0.2s;
 }
 
+/* 태스크 태그 호버 효과 */
 .task-tag:hover {
     background: #2980b9;
     transform: translateY(-1px);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* 선택된 태스크 태그 */
 .task-tag.selected {
     background: #27ae60;
     border: 2px solid #2ecc71;
 }
 
+/* 선택된 태스크 태그 호버 효과 */
 .task-tag.selected:hover {
     background: #229954;
 }
 
+/* 태스크 체크박스 */
 .task-checkbox {
     width: 16px;
     height: 16px;
@@ -415,10 +497,12 @@ header h1 {
     flex-shrink: 0;
 }
 
+/* 태스크 텍스트 */
 .task-text {
     flex: 1;
 }
 
+/* 태스크 제거 버튼 */
 .task-tag .remove-task {
     background: rgba(255, 255, 255, 0.3);
     border: none;
@@ -435,15 +519,20 @@ header h1 {
     transition: background 0.2s;
 }
 
+/* 태스크 제거 버튼 호버 효과 */
 .task-tag .remove-task:hover {
     background: rgba(255, 255, 255, 0.5);
 }
 
-/* Notes Styles */
+/* ============================================
+   메모 섹션 스타일
+   ============================================ */
+/* 메모 섹션 */
 .notes {
     margin-top: 20px;
 }
 
+/* 메모 텍스트 영역 */
 .notes-textarea {
     width: 100%;
     min-height: 120px;
@@ -457,11 +546,16 @@ header h1 {
     transition: border-color 0.2s;
 }
 
+/* 메모 텍스트 영역 포커스 상태 */
 .notes-textarea:focus {
     border-color: #3498db;
 }
 
-/* Responsive Design */
+/* ============================================
+   반응형 디자인 (미디어 쿼리)
+   ============================================ */
+
+/* 태블릿 크기 (968px 이하) */
 @media (max-width: 968px) {
     .main-content {
         grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
@@ -492,6 +586,7 @@ header h1 {
     }
 }
 
+/* 작은 태블릿/큰 모바일 (800px 이하) */
 @media (max-width: 800px) {
     body {
         padding: 10px;
@@ -499,6 +594,7 @@ header h1 {
     }
 
     .container {
+        width: calc(100% - 20px);
         padding: 15px;
     }
 
@@ -536,13 +632,15 @@ header h1 {
     }
 }
 
-/* 모바일 세로 모드 (스마트폰) */
+/* 모바일 세로 모드 (스마트폰, 768px 이하) */
 @media (max-width: 768px) {
+    /* body 스타일 - 패딩 제거하여 전체 화면 사용 */
     body {
         padding: 0;
         overflow-x: hidden;
     }
 
+    /* 컨테이너 - 모서리 둥글기 제거, 전체 너비 사용 */
     .container {
         padding: 15px;
         min-width: unset;
@@ -551,10 +649,12 @@ header h1 {
         border-radius: 0;
     }
 
+    /* 헤더 제목 크기 조정 */
     header h1 {
         font-size: 1.5em;
     }
 
+    /* 날짜 입력창 - 전체 너비 사용 */
     .date-input {
         width: 100%;
         min-width: unset;
@@ -563,23 +663,27 @@ header h1 {
         box-sizing: border-box;
     }
 
+    /* 메인 콘텐츠 - 세로 배치로 변경 */
     .main-content {
         grid-template-columns: 1fr;
         gap: 20px;
     }
 
+    /* 사이드바 - 전체 너비 사용 */
     .sidebar {
         min-width: unset;
         width: 100%;
         max-width: 100%;
     }
 
+    /* 타임라인 섹션 - 전체 너비 사용 */
     .timeline-section {
         min-width: unset;
         width: 100%;
         max-width: 100%;
     }
 
+    /* 섹션 - 전체 너비 사용 */
     .section {
         padding: 15px;
         width: 100%;
@@ -587,6 +691,7 @@ header h1 {
         box-sizing: border-box;
     }
 
+    /* 시간 라벨 - 크기 축소 */
     .time-label {
         width: 60px;
         min-width: 60px;
@@ -594,11 +699,13 @@ header h1 {
         font-size: 0.8em;
     }
 
+    /* 시간 콘텐츠 - 패딩 축소 */
     .time-content {
         padding: 8px;
         min-width: unset;
     }
 
+    /* 타임라인 컨테이너 - 단일 열로 변경, 스크롤 제거 */
     .timeline-container {
         grid-template-columns: 1fr;
         max-height: none;
@@ -606,37 +713,44 @@ header h1 {
         overflow-y: visible;
     }
 
+    /* 시간 블록 - 높이 축소, 전체 너비 사용 */
     .time-block {
         min-width: unset;
         width: 100%;
         min-height: 35px;
     }
 
+    /* 시간 블록 - 모든 블록에 오른쪽 테두리 표시 */
     .time-block:nth-child(2n) {
         border-right: 1px solid #f0f0f0;
     }
 }
 
-/* Scrollbar Styling */
+/* ============================================
+   스크롤바 스타일링
+   ============================================ */
+/* 타임라인 컨테이너와 Brain Dump 목록의 스크롤바 스타일 */
 .timeline-container::-webkit-scrollbar,
 .brain-dump-list::-webkit-scrollbar {
     width: 8px;
 }
 
+/* 스크롤바 트랙 스타일 */
 .timeline-container::-webkit-scrollbar-track,
 .brain-dump-list::-webkit-scrollbar-track {
     background: #f1f1f1;
     border-radius: 4px;
 }
 
+/* 스크롤바 썸(드래그 가능한 부분) 스타일 */
 .timeline-container::-webkit-scrollbar-thumb,
 .brain-dump-list::-webkit-scrollbar-thumb {
     background: #bdc3c7;
     border-radius: 4px;
 }
 
+/* 스크롤바 썸 호버 효과 */
 .timeline-container::-webkit-scrollbar-thumb:hover,
 .brain-dump-list::-webkit-scrollbar-thumb:hover {
     background: #95a5a6;
 }
-
