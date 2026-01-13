@@ -726,6 +726,46 @@ header h1 {
         min-width: 0;
     }
 
+    /* 우선순위 목록 - 컨테이너 너비를 넘지 않도록 설정 */
+    .priority-list {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        overflow-x: hidden;
+    }
+
+    /* 우선순위 항목 - 컨테이너 너비를 넘지 않도록 설정 */
+    .priority-item {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        padding: 12px 10px;
+        gap: 8px;
+        overflow: hidden;
+        min-width: 0;
+    }
+
+    /* 우선순위 입력 필드 - 컨테이너 너비를 넘지 않도록 설정 */
+    .priority-input {
+        flex: 1;
+        min-width: 0;
+        max-width: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* 체크 버튼 - 컨테이너 너비를 넘지 않도록 설정 */
+    .check-btn {
+        width: 26px;
+        height: 26px;
+        min-width: 26px;
+        max-width: 26px;
+        flex-shrink: 0;
+        box-sizing: border-box;
+        font-size: 12px;
+    }
+
     /* Brain Dump 입력 컨트롤 영역 - 컨테이너 너비를 넘지 않도록 설정 */
     .brain-dump-controls {
         width: 100%;
