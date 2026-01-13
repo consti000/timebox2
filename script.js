@@ -346,7 +346,7 @@ function createTimeBlock(timeKey) {
         });
     } else {
         content.classList.add('empty');
-        content.textContent = '클릭하거나 드래그하여 할 일 추가';
+        content.textContent = '할 일 추가';
     }
 
     block.appendChild(label);
@@ -456,7 +456,7 @@ function updateTimeBlock(timeKey) {
         });
     } else {
         content.classList.add('empty');
-        content.textContent = '클릭하거나 드래그하여 할 일 추가';
+        content.textContent = '할 일 추가';
     }
 }
 

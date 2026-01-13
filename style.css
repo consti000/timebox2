@@ -183,6 +183,11 @@ header h1 {
     text-overflow: ellipsis;
 }
 
+/* 우선순위 입력 placeholder를 이탤릭체로 표시 */
+.priority-input::placeholder {
+    font-style: italic;
+}
+
 /* 완료된 우선순위 항목 스타일 */
 .priority-input.completed {
     text-decoration: line-through;
