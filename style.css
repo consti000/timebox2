@@ -138,6 +138,10 @@ header h1 {
     display: flex;
     flex-direction: column;
     gap: 12px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
 }
 
 /* 우선순위 항목 */
@@ -152,6 +156,11 @@ header h1 {
     border: 1px solid #e0e0e0;
     transition: all 0.2s;
     cursor: default;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    min-width: 0;
 }
 
 /* 우선순위 항목 호버 효과 */
@@ -167,6 +176,11 @@ header h1 {
     font-size: 1em;
     background: transparent;
     color: #2c3e50;
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* 완료된 우선순위 항목 스타일 */
