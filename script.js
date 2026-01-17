@@ -457,6 +457,12 @@ function initNotes() {
         appData.notes = e.target.value;
         saveData();
     });
+
+    // Archive 버튼 이벤트
+    const archiveBtn = document.getElementById('archiveBtn');
+    if (archiveBtn) {
+        archiveBtn.addEventListener('click', handleArchive);
+    }
 }
 
 // 드래그 앤 드롭
@@ -773,3 +779,143 @@ async function syncTimelineToCalendar() {
     }
 }
 
+// ============================================
+// Archive 기능 - 엑셀 파일로 데이터 저장
+// ============================================
+
+// 날짜를 YYYYMMDD 형식으로 변환
+function getDateString(dateStr) {
+    if (!dateStr) {
+        // 날짜가 없으면 오늘 날짜 사용
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        return `${year}${month}${day}`;
+    }
+
+    // 날짜 문자열에서 숫자만 추출
+    const numbers = dateStr.match(/\d+/g);
+    if (numbers && numbers.length >= 3) {
+        const year = numbers[0];
+        const month = numbers[1].padStart(2, '0');
+        const day = numbers[2].padStart(2, '0');
+        return `${year}${month}${day}`;
+    }
+
+    // 기본값: 오늘 날짜
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    return `${year}${month}${day}`;
+}
+
+// Archive 기능 처리
+function handleArchive() {
+    const archiveBtn = document.getElementById('archiveBtn');
+    if (!archiveBtn) return;
+
+    // 버튼 비활성화
+    archiveBtn.disabled = true;
+    archiveBtn.textContent = '📦 저장 중...';
+
+    try {
+        // 날짜 문자열 생성
+        const dateString = getDateString(appData.date);
+        const fileName = `${dateString} Timebox2.xlsx`;
+        const currentDate = appData.date || '날짜 미입력';
+
+        // 워크북 생성
+        const wb = XLSX.utils.book_new();
+
+        // 하나의 시트에 모든 데이터 기록
+        const allData = [];
+
+        // 1. Top Priorities 섹션
+        allData.push(['날짜', '구분', '순위', '내용', '완료 여부']); // 헤더
+        for (let i = 1; i <= 3; i++) {
+            const priority = appData.priorities[i];
+            allData.push([
+                currentDate,
+                'Top Priorities',
+                i,
+                priority.text || '',
+                priority.completed ? '완료' : '미완료'
+            ]);
+        }
+
+        // 빈 행 추가 (구분)
+        allData.push([]);
+
+        // 2. Brain Dump 섹션
+        allData.push(['날짜', '구분', '번호', '내용', '완료 여부']); // 헤더
+        if (appData.brainDump.length > 0) {
+            appData.brainDump.forEach((item, index) => {
+                allData.push([
+                    currentDate,
+                    'Brain Dump',
+                    index + 1,
+                    item.text || '',
+                    item.completed ? '완료' : '미완료'
+                ]);
+            });
+        } else {
+            allData.push([currentDate, 'Brain Dump', '', '내용 없음', '']);
+        }
+
+        // 빈 행 추가 (구분)
+        allData.push([]);
+
+        // 3. 타임라인 섹션
+        allData.push(['날짜', '구분', '시간', '할 일', '선택 여부']); // 헤더
+        const timelineKeys = Object.keys(appData.timeline).sort();
+        if (timelineKeys.length > 0) {
+            timelineKeys.forEach(timeKey => {
+                const tasks = appData.timeline[timeKey];
+                if (tasks && tasks.length > 0) {
+                    tasks.forEach(task => {
+                        allData.push([
+                            currentDate,
+                            '타임라인',
+                            timeKey,
+                            task.text || '',
+                            task.selected ? '선택됨' : '미선택'
+                        ]);
+                    });
+                }
+            });
+        } else {
+            allData.push([currentDate, '타임라인', '', '내용 없음', '']);
+        }
+
+        // 빈 행 추가 (구분)
+        allData.push([]);
+
+        // 4. 메모 섹션
+        allData.push(['날짜', '메모 내용']); // 헤더
+        allData.push([
+            currentDate,
+            appData.notes || '메모 없음'
+        ]);
+
+        // 시트 생성
+        const ws = XLSX.utils.aoa_to_sheet(allData);
+        XLSX.utils.book_append_sheet(wb, ws, 'Timebox2');
+
+        // 엑셀 파일 다운로드
+        XLSX.writeFile(wb, fileName);
+
+        // 성공 메시지
+        setTimeout(() => {
+            archiveBtn.disabled = false;
+            archiveBtn.textContent = '📦 Archive';
+        }, 500);
+
+    } catch (error) {
+        console.error('Archive 오류:', error);
+        alert('데이터 저장 중 오류가 발생했습니다: ' + error.message);
+        archiveBtn.disabled = false;
+        archiveBtn.textContent = '📦 Archive';
+    }
+}

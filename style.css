@@ -559,6 +559,47 @@ header h1 {
     margin-top: 20px;
 }
 
+/* 메모 헤더 */
+.notes-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.notes-header h2 {
+    margin-bottom: 0;
+}
+
+/* Archive 버튼 */
+.archive-btn {
+    padding: 8px 16px;
+    background: #27ae60;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-family: inherit;
+}
+
+.archive-btn:hover {
+    background: #229954;
+}
+
+.archive-btn:active {
+    background: #1e8449;
+}
+
+.archive-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
 /* 메모 텍스트 영역 */
 .notes-textarea {
     width: 100%;
@@ -871,6 +912,19 @@ header h1 {
     /* 시간 블록 - 모든 블록에 오른쪽 테두리 표시 */
     .time-block:nth-child(2n) {
         border-right: 1px solid #f0f0f0;
+    }
+
+    /* 메모 헤더 - 모바일 최적화 */
+    .notes-header {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    /* Archive 버튼 - 모바일 최적화 */
+    .archive-btn {
+        padding: 8px 12px;
+        font-size: 0.85em;
+        white-space: nowrap;
     }
 }
 
