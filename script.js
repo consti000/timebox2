@@ -77,28 +77,6 @@ function convertDateFormat(inputValue) {
     return null;
 }
 
-// 입력 필드 너비 자동 조정
-function adjustInputWidth(input) {
-    // 임시 요소를 생성하여 텍스트 너비 측정
-    const temp = document.createElement('span');
-    temp.style.visibility = 'hidden';
-    temp.style.position = 'absolute';
-    temp.style.whiteSpace = 'nowrap';
-    temp.style.fontSize = window.getComputedStyle(input).fontSize;
-    temp.style.fontFamily = window.getComputedStyle(input).fontFamily;
-    temp.style.padding = window.getComputedStyle(input).padding;
-    temp.textContent = input.value || input.placeholder;
-    
-    document.body.appendChild(temp);
-    const width = temp.offsetWidth + 30; // 여유 공간 추가
-    document.body.removeChild(temp);
-    
-    // 최소/최대 너비 제한
-    const minWidth = 200;
-    const maxWidth = 600;
-    input.style.width = Math.max(minWidth, Math.min(maxWidth, width)) + 'px';
-}
-
 // 날짜 초기화
 function initDate() {
     const dateElement = document.getElementById('currentDate');
@@ -140,9 +118,15 @@ function loadData() {
     const saved = localStorage.getItem('timeboxPlanner');
     if (saved) {
         try {
-            appData = JSON.parse(saved);
+            const parsed = JSON.parse(saved);
+            // 데이터 구조 검증
+            if (parsed && typeof parsed === 'object') {
+                appData = { ...appData, ...parsed };
+            }
         } catch (e) {
             console.error('데이터 로드 실패:', e);
+            // 사용자에게 알림 (선택사항)
+            // alert('저장된 데이터를 불러오는 중 오류가 발생했습니다.');
         }
     }
 }
@@ -153,6 +137,10 @@ function saveData() {
         localStorage.setItem('timeboxPlanner', JSON.stringify(appData));
     } catch (e) {
         console.error('데이터 저장 실패:', e);
+        // LocalStorage 용량 초과 등의 경우 처리
+        if (e.name === 'QuotaExceededError') {
+            alert('저장 공간이 부족합니다. 일부 데이터를 삭제해주세요.');
+        }
     }
 }
 
@@ -594,15 +582,27 @@ function initGoogleCalendar() {
     const syncBtn = document.getElementById('syncCalendarBtn');
     if (!syncBtn) return;
 
+    // API 키가 설정되지 않은 경우 처리
+    if (CLIENT_ID === 'YOUR_GOOGLE_CLIENT_ID' || API_KEY === 'YOUR_GOOGLE_API_KEY') {
+        syncBtn.disabled = true;
+        syncBtn.textContent = '📅 API 키 설정 필요';
+        syncBtn.title = 'Google Calendar API 키를 설정해주세요.';
+        return;
+    }
+
     // Google API 초기화
-    gapi.load('client', initializeGapiClient);
+    if (typeof gapi !== 'undefined') {
+        gapi.load('client', initializeGapiClient);
+    }
     
     // Google Identity Services 초기화
-    tokenClient = google.accounts.oauth2.initTokenClient({
-        client_id: CLIENT_ID,
-        scope: SCOPES,
-        callback: '', // 나중에 설정
-    });
+    if (typeof google !== 'undefined' && google.accounts) {
+        tokenClient = google.accounts.oauth2.initTokenClient({
+            client_id: CLIENT_ID,
+            scope: SCOPES,
+            callback: '', // 나중에 설정
+        });
+    }
 
     syncBtn.addEventListener('click', handleCalendarSync);
 }
@@ -626,7 +626,7 @@ function updateSyncButton() {
         syncBtn.textContent = '📅 캘린더에 추가';
         syncBtn.disabled = false;
     } else {
-        syncBtn.textContent = '📅 구글 캘린더 연동';
+        syncBtn.textContent = '📅 캘린더 연동';
         syncBtn.disabled = false;
     }
 }
