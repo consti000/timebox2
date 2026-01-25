@@ -1,3 +1,31 @@
+// ============================================
+// 로그인 확인
+// ============================================
+// 로그인 상태 확인 및 리다이렉트
+function checkLogin() {
+    const loginStatus = sessionStorage.getItem('timeboxLoggedIn');
+    if (loginStatus !== 'true') {
+        // 로그인되지 않았으면 로그인 페이지로 이동
+        window.location.href = 'server/login.html';
+        return false;
+    }
+    return true;
+}
+
+// 페이지 로드 시 즉시 로그인 확인
+if (!checkLogin()) {
+    // 로그인 페이지로 리다이렉트되면 이후 코드 실행 중단
+    throw new Error('로그인이 필요합니다.');
+}
+
+// API 엔드포인트 설정
+const API_BASE_URL = 'http://localhost:3000/api';
+
+// 사용자 정보 가져오기
+function getUserId() {
+    return sessionStorage.getItem('timeboxUserId');
+}
+
 // 데이터 저장소
 let appData = {
     date: '',
@@ -22,9 +50,15 @@ let gisInited = false;
 let tokenClient = null;
 
 // 초기화
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+    // 로그인 확인 (이중 체크)
+    if (!checkLogin()) {
+        return;
+    }
+    
     initDate();
-    loadData();
+    // 비동기 로드이므로 await로 처리
+    await loadData();
     initPriorities();
     initBrainDump();
     initTimeline();
@@ -36,6 +70,15 @@ document.addEventListener('DOMContentLoaded', () => {
 function getWeekday(date) {
     const weekdays = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
     return weekdays[date.getDay()];
+}
+
+// 날짜를 YYYYMMDD 형식으로 변환
+function formatDate(dateObj) {
+    if (!dateObj) return '';
+    const year = dateObj.getFullYear();
+    const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+    const day = String(dateObj.getDate()).padStart(2, '0');
+    return `${year}${month}${day}`;
 }
 
 // 날짜 형식 변환 함수
@@ -113,34 +156,118 @@ function initDate() {
     });
 }
 
-// Local Storage에서 데이터 로드
-function loadData() {
+// 날짜를 YYYYMMDD 형식으로 변환 (입력된 날짜 문자열에서)
+function extractDateString(dateStr) {
+    if (!dateStr) return formatDate(new Date());
+    
+    // "2024년 1월 15일 월요일" 형식에서 숫자 추출
+    const match = dateStr.match(/(\d{4})년\s*(\d{1,2})월\s*(\d{1,2})일/);
+    if (match) {
+        const year = match[1];
+        const month = String(match[2]).padStart(2, '0');
+        const day = String(match[3]).padStart(2, '0');
+        return `${year}${month}${day}`;
+    }
+    
+    // 이미 YYYYMMDD 형식인 경우
+    if (/^\d{8}$/.test(dateStr)) {
+        return dateStr;
+    }
+    
+    // 기본값: 오늘 날짜
+    return formatDate(new Date());
+}
+
+// API를 통한 데이터 로드
+async function loadData() {
+    const userId = getUserId();
+    const dateInput = document.getElementById('currentDate')?.value || appData.date;
+    const currentDate = extractDateString(dateInput);
+
+    if (!userId) {
+        console.warn('사용자 ID가 없습니다. 로컬 스토리지에서 로드합니다.');
+        loadDataFromLocalStorage();
+        return;
+    }
+
+    try {
+        // 백엔드 API 호출
+        const response = await fetch(`${API_BASE_URL}/data/load/${userId}/${currentDate}`);
+        const result = await response.json();
+
+        if (result.success && result.data) {
+            // 백엔드에서 데이터 로드 성공
+            appData = { ...appData, ...result.data };
+            console.log('백엔드에서 데이터 로드 성공');
+        } else {
+            // 데이터가 없으면 로컬 스토리지에서 로드 시도
+            console.log('백엔드에 데이터가 없습니다. 로컬 스토리지에서 로드합니다.');
+            loadDataFromLocalStorage();
+        }
+    } catch (error) {
+        console.error('백엔드 데이터 로드 실패:', error);
+        // 에러 발생 시 로컬 스토리지에서 로드
+        loadDataFromLocalStorage();
+    }
+}
+
+// 로컬 스토리지에서 데이터 로드 (폴백)
+function loadDataFromLocalStorage() {
     const saved = localStorage.getItem('timeboxPlanner');
     if (saved) {
         try {
             const parsed = JSON.parse(saved);
-            // 데이터 구조 검증
             if (parsed && typeof parsed === 'object') {
                 appData = { ...appData, ...parsed };
             }
         } catch (e) {
-            console.error('데이터 로드 실패:', e);
-            // 사용자에게 알림 (선택사항)
-            // alert('저장된 데이터를 불러오는 중 오류가 발생했습니다.');
+            console.error('로컬 스토리지 데이터 로드 실패:', e);
         }
     }
 }
 
-// Local Storage에 데이터 저장
-function saveData() {
+// API를 통한 데이터 저장
+async function saveData() {
+    const userId = getUserId();
+    const dateInput = document.getElementById('currentDate')?.value || appData.date;
+    const currentDate = extractDateString(dateInput);
+
+    // 로컬 스토리지에도 백업 저장
     try {
         localStorage.setItem('timeboxPlanner', JSON.stringify(appData));
     } catch (e) {
-        console.error('데이터 저장 실패:', e);
-        // LocalStorage 용량 초과 등의 경우 처리
-        if (e.name === 'QuotaExceededError') {
-            alert('저장 공간이 부족합니다. 일부 데이터를 삭제해주세요.');
+        console.error('로컬 스토리지 저장 실패:', e);
+    }
+
+    if (!userId) {
+        console.warn('사용자 ID가 없습니다. 로컬 스토리지만 사용합니다.');
+        return;
+    }
+
+    try {
+        // 백엔드 API 호출
+        const response = await fetch(`${API_BASE_URL}/data/save`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                userId: parseInt(userId),
+                date: currentDate,
+                data: appData
+            })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            console.log('백엔드에 데이터 저장 성공');
+        } else {
+            console.error('백엔드 데이터 저장 실패:', result.message);
         }
+    } catch (error) {
+        console.error('백엔드 데이터 저장 오류:', error);
+        // 에러가 발생해도 로컬 스토리지에는 저장되어 있음
     }
 }
 
